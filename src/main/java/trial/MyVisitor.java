@@ -1,17 +1,23 @@
 package trial;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
+import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 
 public class MyVisitor extends ASTVisitor{
 
@@ -20,7 +26,7 @@ public class MyVisitor extends ASTVisitor{
 		
 		ArrayList<CompilationUnit> units = new ArrayList<>();
 		
-		String[] source = {"subject/T1.java","subject/T2.java"};
+		String[] source = {"subject/T1.java"};
 		String[] directory = {"subject"};
 		
 		FileASTRequestor requestor = new FileASTRequestor() {
@@ -44,25 +50,53 @@ public class MyVisitor extends ASTVisitor{
 		for(CompilationUnit unit : units) {
 			MyVisitor visitor = new MyVisitor();
 			unit.accept(visitor);
+			System.out.println(unit);
 		}
 	}
 	
 	@Override
-	public boolean visit(TypeDeclaration node) {
-		// TODO 自動生成されたメソッド・スタブ
-		System.out.println(node.getName());
+	public boolean visit(MethodInvocation node) {
+		node.setExpression(node.getAST().newThisExpression());
+		System.out.println(node.resolveMethodBinding().getDeclaringClass().getName());
+		//System.out.println(node);
 		return super.visit(node);
 	}
 	
 	@Override
 	public boolean visit(SimpleName node) {
-		// TODO 自動生成されたメソッド・スタブ
-		try{
-			System.out.println(node + " " + node.resolveTypeBinding().getName());
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(node + " " + "null");
+		if(!(node.getParent() instanceof QualifiedName) && node.resolveBinding().getKind() == IBinding.TYPE && !node.getIdentifier().equals("T1")) {
+			String q = node.resolveTypeBinding().getQualifiedName();
+			if(q.contains("<")) {
+				q = q.substring(0, q.indexOf("<") );
+			}
+			q = q.substring(0, q.lastIndexOf(".") );
+			
+			QualifiedName qualifiedName = node.getAST().newQualifiedName(node.getAST().newName(q), node.getAST().newSimpleName(node.getIdentifier()));
+			
+			replaceNode((Name)node, (Name)qualifiedName);
 		}
+		/*
+		if(node.resolveTypeBinding() != null && node.resolveBinding().getKind() == IBinding.VARIABLE)
+		System.out.println(node + " " + node.resolveTypeBinding().getName());
+		*/
 		return super.visit(node);
+	}
+	
+	private void replaceNode(ASTNode target, ASTNode astNode) {
+	    StructuralPropertyDescriptor locationInParent = target.getLocationInParent();
+
+	    ASTNode copiedNode = ASTNode.copySubtree(target.getAST(), astNode);
+	    
+	    if (locationInParent.isChildListProperty()) {
+	      List siblings = (List) target.getParent().getStructuralProperty(locationInParent);
+	      int replaceIdx = siblings.indexOf(target);
+	      siblings.set(replaceIdx, copiedNode);
+
+	    } else if (locationInParent.isChildProperty()) {
+	      target.getParent().setStructuralProperty(locationInParent, copiedNode);
+
+	    } else {
+	      throw new RuntimeException("can't replace node");
+	    }
 	}
 }
