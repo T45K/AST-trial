@@ -17,7 +17,7 @@ plugins {
 }
 
 // Define the main class for the application
-mainClassName = 'trial.MyVisitor'
+mainClassName = 'trial.InitializeVisitor'
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.

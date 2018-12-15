@@ -36,7 +36,7 @@ public class InitializeVisitor extends ASTVisitor {
 	
 	@SuppressWarnings("unchecked")
 	public void run() {
-		File file = new File("C:\\ex\\row-data\\forEx\\jfreechart-1.0.19\\swt");
+		File file = new File("/home/t-nakagw/work/ex/solo/CC-Rex/subject/solo/src/main");
 		ArrayList<String> allJavaFile = new ArrayList<>();
 		
 		getAllJavaFile(file,allJavaFile);
