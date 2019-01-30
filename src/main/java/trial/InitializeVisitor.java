@@ -30,13 +30,19 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
 public class InitializeVisitor extends ASTVisitor {
+	private boolean modifier;
+	private boolean initialize;
+	
 	public static void main(String[] args) {
 		new InitializeVisitor().run();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void run() {
-		File file = new File("C:\\ex\\row-data\\forEx\\jfreechart-1.0.19\\swt");
+		modifier = true;
+		initialize = true;
+		
+		File file = new File("C:\\ex\\row-data\\forEx\\ex\\org");
 		ArrayList<String> allJavaFile = new ArrayList<>();
 		
 		getAllJavaFile(file,allJavaFile);
@@ -69,7 +75,8 @@ public class InitializeVisitor extends ASTVisitor {
 			unit.accept(new InitializeVisitor());
 			
 			IDocument document = new Document(code.toString());
-			TextEdit edit = unit.rewrite(document, null);
+			final Map<String,String> rewriteOption = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
+			TextEdit edit = unit.rewrite(document, rewriteOption);
 			try {
 				edit.apply(document);
 			} catch (MalformedTreeException | BadLocationException e) {
@@ -82,9 +89,7 @@ public class InitializeVisitor extends ASTVisitor {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		
-		
+		}		
 	}
 	
 	public static void getAllJavaFile(File directory,ArrayList<String> list) {
@@ -129,6 +134,10 @@ public class InitializeVisitor extends ASTVisitor {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(MethodDeclaration node) {
+		if(!modifier) {
+			return true;
+		}
+		
 		if(node.isConstructor() && node.getParent() instanceof EnumDeclaration) {
 			return false;
 		}
