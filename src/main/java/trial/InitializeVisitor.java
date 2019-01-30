@@ -16,6 +16,7 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.PrimitiveType;
@@ -72,6 +73,7 @@ public class InitializeVisitor extends ASTVisitor {
 			parser.setSource(code.toString().toCharArray());
 			CompilationUnit unit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
 			unit.recordModifications();
+			unit.getCommentList().clear();
 			unit.accept(new InitializeVisitor());
 			
 			IDocument document = new Document(code.toString());
@@ -104,6 +106,12 @@ public class InitializeVisitor extends ASTVisitor {
 				list.add(file.toString());
 			}
 		}
+	}
+	
+	@Override
+	public boolean visit(Javadoc node) {
+		node.delete();
+		return super.visit(node);
 	}
 	
 	@Override
