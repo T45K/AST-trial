@@ -73,7 +73,7 @@ public class InitializeVisitor extends ASTVisitor {
 			parser.setSource(code.toString().toCharArray());
 			CompilationUnit unit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
 			unit.recordModifications();
-			unit.getCommentList().clear();
+			//unit.getCommentList().clear();
 			unit.accept(new InitializeVisitor());
 			
 			IDocument document = new Document(code.toString());
@@ -108,11 +108,13 @@ public class InitializeVisitor extends ASTVisitor {
 		}
 	}
 	
+	/*
 	@Override
 	public boolean visit(Javadoc node) {
 		node.delete();
 		return super.visit(node);
 	}
+	*/
 	
 	@Override
 	public boolean visit(VariableDeclarationFragment node) {
