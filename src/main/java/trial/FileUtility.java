@@ -6,10 +6,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileUtility {
+class FileUtility {
 
-
-    public static List<Path> getAllJavaFilePath(final Path rootDirectory) throws IOException {
+    static List<Path> getAllJavaFilePath(final Path rootDirectory) throws IOException {
         return Files.walk(rootDirectory)
                 .filter(path -> path.toString().endsWith(".java"))
                 .collect(Collectors.toList());
