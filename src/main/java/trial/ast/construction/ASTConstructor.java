@@ -16,7 +16,8 @@ public class ASTConstructor implements IASTConstructor {
     /**
      * ASTを構築するメソッド
      * 1ファイルごとにCompilationUnitを生成する
-     * @param   pathList javaファイルのパスのリスト
+     *
+     * @param pathList javaファイルのパスのリスト
      * @return CompilationUnitのリスト
      */
     @Override
@@ -37,9 +38,9 @@ public class ASTConstructor implements IASTConstructor {
         }
         final char[] contents = new String(bytes).toCharArray();
 
-        final ASTParser parser = AST.getParser();
+        final ASTParser parser = ASTUtility.getParser();
         parser.setSource(contents);
 
-        return (CompilationUnit)parser.createAST(new NullProgressMonitor());
+        return (CompilationUnit) parser.createAST(new NullProgressMonitor());
     }
 }

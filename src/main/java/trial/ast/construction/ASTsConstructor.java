@@ -9,11 +9,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ASTSConstructor implements IASTConstructor {
+public class ASTsConstructor implements IASTConstructor {
 
     /**
      * ASTを構築するメソッド
      * 複数のファイルからまとめてCompilationUnitを生成する
+     *
      * @param pathList Javaファイルのパスのリスト
      * @return CompilationUnitのリスト
      */
@@ -32,8 +33,8 @@ public class ASTSConstructor implements IASTConstructor {
             }
         };
 
-        final ASTParser parser = AST.getParser();
-        parser.createASTs(pathStringArray,null,null,myFileASTRequestor,new NullProgressMonitor());
+        final ASTParser parser = ASTUtility.getParser();
+        parser.createASTs(pathStringArray, null, null, myFileASTRequestor, new NullProgressMonitor());
 
         return unitList;
     }

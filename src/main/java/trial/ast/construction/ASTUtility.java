@@ -1,14 +1,15 @@
 package trial.ast.construction;
 
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import java.util.Map;
 
-class AST {
-    static ASTParser getParser(){
-        final ASTParser parser = ASTParser.newParser(org.eclipse.jdt.core.dom.AST.JLS10);
+class ASTUtility {
+    static ASTParser getParser() {
+        final ASTParser parser = ASTParser.newParser(AST.JLS10);
 
         final Map<String, String> options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
         options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_10);

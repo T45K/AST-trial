@@ -28,6 +28,7 @@ public class MyVisitor extends ASTVisitor {
 
     /**
      * 走査中のASTNodeに存在するASTNodeを入れ替える
+     *
      * @param oldNode 古いノード
      * @param newNode 新しいノード
      */
