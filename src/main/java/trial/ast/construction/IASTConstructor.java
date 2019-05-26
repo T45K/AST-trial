@@ -6,5 +6,10 @@ import java.nio.file.Path;
 import java.util.List;
 
 public interface IASTConstructor {
+    /**
+     * 与えられたJavaファイルのパスから，そのファイルの内容に即したCompilationUnitを構築する
+     * @param pathList
+     * @return CompilationUnitのリスト
+     */
     public List<CompilationUnit> construct(List<Path> pathList);
 }
