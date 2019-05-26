@@ -14,7 +14,7 @@ public class ASTSConstructor implements IASTConstructor {
     /**
      * ASTを構築するメソッド
      * 複数のファイルからまとめてCompilationUnitを生成する
-     * @param pathList
+     * @param pathList Javaファイルのパスのリスト
      * @return CompilationUnitのリスト
      */
     @Override

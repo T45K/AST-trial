@@ -11,7 +11,7 @@ public class ASTFactory {
     /**
      * ファクトリーメソッド
      * 2種類のAST構築方法のどちらかのインスタンスを返す
-     * @param mode
+     * @param mode AST構築の仕方 "ast" or "asts"
      * @return AST構築メソッドを実装したオブジェクト
      */
     public static IASTConstructor create(final String mode) {

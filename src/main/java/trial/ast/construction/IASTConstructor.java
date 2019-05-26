@@ -8,7 +8,7 @@ import java.util.List;
 public interface IASTConstructor {
     /**
      * 与えられたJavaファイルのパスから，そのファイルの内容に即したCompilationUnitを構築する
-     * @param pathList
+     * @param pathList Javaファイルのパスのリスト
      * @return CompilationUnitのリスト
      */
     public List<CompilationUnit> construct(List<Path> pathList);

@@ -6,8 +6,8 @@ import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import java.util.Map;
 
-public class AST {
-    public static ASTParser getParser(){
+class AST {
+    static ASTParser getParser(){
         final ASTParser parser = ASTParser.newParser(org.eclipse.jdt.core.dom.AST.JLS10);
 
         final Map<String, String> options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
