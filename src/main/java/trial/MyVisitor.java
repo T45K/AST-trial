@@ -2,11 +2,29 @@ package trial;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 
 import java.util.List;
 
+/**
+ * ASTVisitorを継承したクラス
+ * 継承したvisitメソッドに追記することで，各ノードに対していろいろできる
+ */
 public class MyVisitor extends ASTVisitor {
+
+    @Override
+    public boolean visit(final MethodDeclaration node) {
+        System.out.println(node.getName());
+        return super.visit(node);
+    }
+
+    @Override
+    public boolean visit(final IfStatement node) {
+        System.out.println(node);
+        return super.visit(node);
+    }
 
     /**
      * 走査中のASTNodeに存在するASTNodeを入れ替える
